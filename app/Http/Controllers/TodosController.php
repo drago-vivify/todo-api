@@ -15,7 +15,6 @@ class TodosController extends Controller
     public function index()
     {
         $todos = Todo::orderBy('created_at', 'desc')->get();
-
         return response()->json($todos, 200);
     }
 
@@ -30,7 +29,6 @@ class TodosController extends Controller
         $todo = new Todo;
         $todo->content = $request->input('content');
         $todo->priority = $request->input('priority');
-        $todo->done = $request->input('done');
         $todo->save();
         return response()->json($todo, 201);
     }
@@ -62,11 +60,11 @@ class TodosController extends Controller
     public function update(Request $request, $id)
     {
         $todo = Todo::find($id);
+        
         if (!$todo) {
             $todo = new Todo;
             $todo->content = $request->input('content');
             $todo->priority = $request->input('priority');
-            $todo->done = $request->input('done');
             $todo->save();
             return response()->json($todo, 201);
         }
