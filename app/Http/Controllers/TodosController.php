@@ -26,7 +26,11 @@ class TodosController extends Controller
      */
     public function store(Request $request)
     {
-        $todo = createNewTodo($request->input('content'), $request->input('priority'));
+        $todo = new Todo;
+        $todo->content = $request->input('content');
+        $todo->priority = $request->input('priority');
+        $todo->done = $request->input('done');
+        $todo->save();
         return response()->json($todo, 201);
     }
 
@@ -39,8 +43,12 @@ class TodosController extends Controller
     public function show($id)
     {
         $todo = Todo::find($id);
-        
-        return response()->json($todo, 200);
+        if ($todo) {
+            return response()->json($todo, 200);
+        }
+        else {
+            return response()->json($todo, 404);
+        }
     }
 
     /**
@@ -54,7 +62,11 @@ class TodosController extends Controller
     {
         $todo = Todo::find($id);
         if (!$todo) {
-            $todo = createNewTodo($request->input('content'), $request->input('priority'));
+            $todo = new Todo;
+            $todo->content = $request->input('content');
+            $todo->priority = $request->input('priority');
+            $todo->done = $request->input('done');
+            $todo->save();
             return response()->json($todo, 201);
         }
 
@@ -78,13 +90,5 @@ class TodosController extends Controller
         }
         $todo->delete();
         return response()->json($todo, 200);
-    }
-
-    private function createNewTodo($content, $priority) {
-        $todo = new Todo;
-        $todo->content = $content;
-        $todo->priority = $priority;
-        $todo->save();
-        return $todo;
     }
 }
