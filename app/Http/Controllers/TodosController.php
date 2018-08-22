@@ -14,7 +14,8 @@ class TodosController extends Controller
      */
     public function index()
     {
-        $todos = Todo::all();
+        $todos = Todo::orderBy('created_at', 'desc')->get();
+
         return response()->json($todos, 200);
     }
 
@@ -72,6 +73,7 @@ class TodosController extends Controller
 
         $todo->content = $request->input('content');
         $todo->priority = $request->input('priority');
+        $todo->done = $request->input('done');
         $todo->save();
         return response()->json($todo, 200);
     }
