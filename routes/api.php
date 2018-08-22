@@ -23,3 +23,7 @@ Route::put('/todos/{id}', 'TodosController@update');
 
 Route::delete('/todos/{id}', 'TodosController@destroy');
 
+Route::post('/users', 'UsersController@register');
+
+Route::post('/login', 'UsersController@login');
+
